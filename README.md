@@ -19,6 +19,7 @@ Vim panes and tmux splits seamlessly.
 - `<ctrl-k>` => Up
 - `<ctrl-l>` => Right
 - `<ctrl-\>` => Previous split
+- `<ctrl-q>` => Close
 
 **Note** - you don't need to use your tmux `prefix` key sequence before using
 the mappings.
@@ -67,6 +68,7 @@ If you are using [lazy.nvim](https://github.com/folke/lazy.nvim). Add the follow
     "TmuxNavigateRight",
     "TmuxNavigatePrevious",
     "TmuxNavigatorProcessList",
+    "TmuxNavigateClose",
   },
   keys = {
     { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
@@ -74,6 +76,7 @@ If you are using [lazy.nvim](https://github.com/folke/lazy.nvim). Add the follow
     { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
     { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
     { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+    { '<c-q>', '<cmd><C-U>TmuxNavigateClose<cr>' },
   },
 }
 ```
@@ -97,6 +100,7 @@ bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h'  'select-pane -L'
 bind-key -n 'C-j' if-shell "$is_vim" 'send-keys C-j'  'select-pane -D'
 bind-key -n 'C-k' if-shell "$is_vim" 'send-keys C-k'  'select-pane -U'
 bind-key -n 'C-l' if-shell "$is_vim" 'send-keys C-l'  'select-pane -R'
+bind-key -n 'C-q' if-shell "$is_vim" 'send-keys C-q'  'kill-pane'
 tmux_version='$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p")'
 if-shell -b '[ "$(echo "$tmux_version < 3.0" | bc)" = 1 ]' \
     "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\'  'select-pane -l'"
@@ -130,6 +134,7 @@ set -g @vim_navigator_mapping_right "C-Right C-l"
 set -g @vim_navigator_mapping_up "C-k"
 set -g @vim_navigator_mapping_down "C-j"
 set -g @vim_navigator_mapping_prev ""  # removes the C-\ binding
+set -g @vim_navigator_mapping_close "C-q"
 ```
 
 To disable the automatic mapping of `<prefix> C-l` to `send C-l` (which is
